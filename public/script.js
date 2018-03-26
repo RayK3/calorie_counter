@@ -96,9 +96,9 @@ window.onload = function() {
         return false;
       } else {
         delete this.meals[name];
+        this.sumCalories();
         return true;
       }
-      this.sumCalories();
     },
 
 
