@@ -1,5 +1,7 @@
 window.onload = function() {
 
+  var url = 'http://159.89.127.195:8000/';
+
   function getCookie(name) {
     var value = "; " + document.cookie;
     if(value.includes(name)) {
@@ -35,7 +37,7 @@ window.onload = function() {
           }
         }
       }
-      xhttp.open("GET", "http://127.0.0.1:8000/calorie_counter?id=" + this.guid, true);
+      xhttp.open("GET", url + "calorie_counter?id=" + this.guid, true);
       xhttp.send();
     },
 
@@ -56,7 +58,6 @@ window.onload = function() {
       }
 
       var xhttp = new XMLHttpRequest();
-      var url = "http://127.0.0.1:8000/setGuid";
 
       var oldInfo = {
         meals: this.meals,
@@ -66,7 +67,7 @@ window.onload = function() {
 
       var params = "id=" + this.guid + "&calorieCounter=" + JSON.stringify(oldInfo);
 
-      xhttp.open("POST", url, true);
+      xhttp.open("POST", url + 'setGuid', true);
 
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
