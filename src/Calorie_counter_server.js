@@ -57,7 +57,6 @@ app.post('/setGuid', function(req, res) {
         }
         fs.writeFile(filePath, JSON.stringify(content), function (err) {
           if (err) throw err;
-          console.log('The file has been saved');
         });
       }
     } else if(err.code == 'ENOENT') {
