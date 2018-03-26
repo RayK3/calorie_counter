@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <style>
+  .inputs {
+    padding: 20px;
+  }
+  body {
+    background-color: #ddd;
+  }
+  }
+  .table table {
+    width: 100%;
+  }
+  </style>
+</head>
+<body>
+<div class="row">
+  <div class="col s6">
+    <div class="card grey lighten-3">
+      <div class="card-content">
+        <span class="card-title">Add/Remove Meals or Items</span>
+        <div id="addMeal">
+          <button id="addMealButton" class="waves-effect waves-teal btn">Add Meal</button>
+          <div id="addMealInputs" class="inputs">
+            <input type="text" id="addMealInput" placeholder="Which meal was it?"></input>
+          </div>
+        </div>
+        <div id="removeMeal">
+          <button id="removeMealButton" class="waves-effect waves-light btn">Remove Meal</button>
+          <div id="removeMealInputs" class="inputs">
+            <input type="text" id="removeMealInput" placeholder="Which meal was it?"></input>
+          </div>
+        </div>
+        <div id="addItem">
+          <button id="addItemButton" class="waves-effect waves-light btn">Add Item</button>
+          <div id="addItemInputs" class="inputs">
+            <input type="text" id="newItemMeal" placeholder="Which meal?"></input>
+            <input type="text" id="newItem" placeholder="Which item?"></input>
+            <input type="text" id="newItemCalories" placeholder="How many calories?"></input>
+          </div>
+        </div>
+        <div id="removeItem">
+          <button id="removeItemButton" class="waves-effect waves-light btn">Remove Item</button>
+          <div id="removeItemInputs" class="inputs">
+            <input type="text" id="itemToRemoveMeal" placeholder="Which meal?"></input>
+            <input type="text" id="itemToRemove" placeholder="Which item?"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s6">
+    <div class="card grey lighten-3">
+      <div class="card-content">
+        <div id="itemSummary">
+          <span class="card-title">Item Summary</span>
+          <div class="table">
+            <table id="itemTable" class="centered striped">
+              <tr>
+                <td>No Items</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card grey lighten-3">
+      <div class="card-content">
+        <div id="calorieSummary">
+          <span class="card-title">Calorie Summary</span>
+          <div class="table">
+            <table id="calorieTable" class="centered striped">
+              <tr>
+                <td>No Meals</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card grey lighten-2">
+      <div class="card-content">
+        <canvas id="itemBar"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
