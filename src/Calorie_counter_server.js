@@ -44,7 +44,6 @@ app.post('/setGuid', function(req, res) {
         if (err) {
           throw err;
         }
-        console.log('This is the data: ' + data);
         processFile(data);
       });
 
