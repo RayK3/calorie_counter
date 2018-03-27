@@ -168,6 +168,10 @@ window.onload = function() {
           var mealItem = data.split(' ');
 
           calorieCounter.removeItem(...mealItem);
+          calorieCounter.summarizeCalories();
+          calorieCounter.summarizeItems();
+          calorieCounter.graph();
+          calorieCounter.updateJSON();
         });
       });
     },
