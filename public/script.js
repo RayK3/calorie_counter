@@ -153,7 +153,7 @@ window.onload = function() {
                      <td>${meal}</td>
                      <td>${item}</td>
                      <td>${this.meals[meal].items[item]}</td>
-                     <td><button class="removeItemButtons" data-item= "${meal} ${item}">Remove</button></td>
+                     <td><button class="removeItemButtons" data-item="${meal} ${item}">Remove</button></td>
                    </tr>`;
         }
       }
