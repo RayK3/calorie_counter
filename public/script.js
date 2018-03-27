@@ -118,6 +118,9 @@ window.onload = function() {
       } else {
         this.meals[meal].calories -= this.meals[meal].items[itemName];
         delete this.meals[meal].items[itemName];
+        if(Object.keys(this.meals[meal].items).length === 0) {
+          delete this.meals[meal];
+        }
         return true;
       }
       this.sumCalories();
