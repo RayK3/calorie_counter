@@ -144,6 +144,7 @@ window.onload = function() {
     },
 
     summarizeItems: function() {
+
       var html = '<thead><tr><th>Meal</th><th>Item</th><th>Calories</th></tr></thead><tbody>';
 
 
@@ -159,6 +160,13 @@ window.onload = function() {
       }
       html += '</tbody>'
       itemTable.innerHTML = html;
+      var removeItemButtons = document.querySelectorAll("removeItemButtons");
+
+      removeItemButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          console.log(button.getAttribute('data-item'));
+        });
+      });
     },
     graph: function() {
       var mealItems = [];
@@ -226,14 +234,6 @@ window.onload = function() {
 
   var itemTable = document.getElementById("itemTable");
   var calorieTable = document.getElementById("calorieTable");
-
-  var removeItemButtons = document.querySelectorAll("removeItemButtons");
-
-  removeItemButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      console.log(button.getAttribute('data-item'));
-    });
-  });
 
   addMealButton.addEventListener('click', function() {
     if(addMealInput.value === '') {
