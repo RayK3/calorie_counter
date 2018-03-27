@@ -162,6 +162,7 @@ window.onload = function() {
       itemTable.innerHTML = html;
       var removeItemButtons = document.querySelectorAll("removeItemButtons");
 
+      console.log(removeItemButtons);
       removeItemButtons.forEach(function(button) {
         button.addEventListener('click', function() {
           console.log(button.getAttribute('data-item'));
