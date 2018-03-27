@@ -158,15 +158,16 @@ window.onload = function() {
                    </tr>`;
         }
       }
-      html += '</tbody>'
+      html += '</tbody>';
       itemTable.innerHTML = html;
-      console.log(itemTable.innerHTML);
       var removeItemButtons = document.querySelectorAll(".removeItemButtons");
 
-      console.log(removeItemButtons);
       removeItemButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-          console.log(button.getAttribute('data-item'));
+          var data = button.getAttribute('data-item');
+          var mealItem = data.split(' ');
+
+          calorieCounter.removeItem(...mealItem);
         });
       });
     },
