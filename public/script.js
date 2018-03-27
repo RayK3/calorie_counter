@@ -161,7 +161,7 @@ window.onload = function() {
       html += '</tbody>'
       itemTable.innerHTML = html;
       console.log(itemTable.innerHTML);
-      var removeItemButtons = document.querySelectorAll("removeItemButtons");
+      var removeItemButtons = document.querySelectorAll(".removeItemButtons");
 
       console.log(removeItemButtons);
       removeItemButtons.forEach(function(button) {
