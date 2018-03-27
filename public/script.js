@@ -227,7 +227,7 @@ window.onload = function() {
   var itemTable = document.getElementById("itemTable");
   var calorieTable = document.getElementById("calorieTable");
 
-  var removeItemButtons = document.querySelectorAll("removeMealButtons");
+  var removeItemButtons = document.querySelectorAll("removeItemButtons");
 
   removeItemButtons.forEach(function(button) {
     button.addEventListener('click', function() {
