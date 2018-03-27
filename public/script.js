@@ -153,7 +153,7 @@ window.onload = function() {
                      <td>${meal}</td>
                      <td>${item}</td>
                      <td>${this.meals[meal].items[item]}</td>
-                     <td><button class="removeMealButton">Remove</button></td>
+                     <td><button class="removeItemButtons" data-item= "${meal} ${item}">Remove</button></td>
                    </tr>`;
         }
       }
@@ -226,6 +226,14 @@ window.onload = function() {
 
   var itemTable = document.getElementById("itemTable");
   var calorieTable = document.getElementById("calorieTable");
+
+  var removeItemButtons = document.querySelectorAll("removeMealButtons");
+
+  removeItemButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      console.log(button.getAttribute('data-item'));
+    });
+  }
 
   addMealButton.addEventListener('click', function() {
     if(addMealInput.value === '') {
