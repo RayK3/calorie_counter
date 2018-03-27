@@ -233,7 +233,7 @@ window.onload = function() {
     button.addEventListener('click', function() {
       console.log(button.getAttribute('data-item'));
     });
-  }
+  });
 
   addMealButton.addEventListener('click', function() {
     if(addMealInput.value === '') {
