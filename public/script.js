@@ -168,9 +168,9 @@ window.onload = function() {
       removeItemButtons.forEach(function(button) {
         button.addEventListener('click', function() {
           var data = button.getAttribute('data-item');
-          var mealItem = data.split(' ');
+          var mealAndItem = data.split(' ');
 
-          calorieCounter.removeItem(...mealItem);
+          calorieCounter.removeItem(...mealAndItem);
           calorieCounter.summarizeCalories();
           calorieCounter.summarizeItems();
           calorieCounter.graph();
