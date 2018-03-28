@@ -18,6 +18,24 @@
   .table table {
     width: 100%;
   }
+  .removeItemButtons {
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #E00000;
+  }
+  .errorMessage {
+    margin-left: 20px;
+    color: rgba(240, 0, 0, 0);
+    -webkit-transition: color 0.6s;
+    -moz-transition: color 0.6s;
+    -o-transition: color 0.6s;
+  }
+  .errorMessage.active {
+    color: rgba(240, 0, 0, 1);
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    -o-transition: color 0.3s;
+  }
   </style>
 </head>
 <body>
@@ -27,30 +45,26 @@
       <div class="card-content">
         <span class="card-title">Add/Remove Meals or Items</span>
         <div id="addMeal">
-          <button id="addMealButton" class="waves-effect waves-teal btn">Add Meal</button>
+          <button id="addMealButton" class="waves-effect btn">Add Meal</button>
+          <i id="addMealErrorMessage" class="errorMessage"></i>
           <div id="addMealInputs" class="inputs">
             <input type="text" id="addMealInput" placeholder="Which meal was it?"></input>
           </div>
         </div>
         <div id="removeMeal">
-          <button id="removeMealButton" class="waves-effect waves-light btn">Remove Meal</button>
+          <button id="removeMealButton" class="waves-effect btn">Remove Meal</button>
+          <i id="removeMealErrorMessage" class="errorMessage"></i>
           <div id="removeMealInputs" class="inputs">
             <input type="text" id="removeMealInput" placeholder="Which meal was it?"></input>
           </div>
         </div>
         <div id="addItem">
-          <button id="addItemButton" class="waves-effect waves-light btn">Add Item</button>
+          <button id="addItemButton" class="waves-effect btn">Add Item</button>
+          <i id="addItemErrorMessage" class="errorMessage"></i>
           <div id="addItemInputs" class="inputs">
             <input type="text" id="newItemMeal" placeholder="Which meal?"></input>
             <input type="text" id="newItem" placeholder="Which item?"></input>
             <input type="text" id="newItemCalories" placeholder="How many calories?"></input>
-          </div>
-        </div>
-        <div id="removeItem">
-          <button id="removeItemButton" class="waves-effect waves-light btn">Remove Item</button>
-          <div id="removeItemInputs" class="inputs">
-            <input type="text" id="itemToRemoveMeal" placeholder="Which meal?"></input>
-            <input type="text" id="itemToRemove" placeholder="Which item?"></input>
           </div>
         </div>
       </div>
@@ -74,7 +88,7 @@
     <div class="card grey lighten-3">
       <div class="card-content">
         <div id="calorieSummary">
-          <span class="card-title">Calorie Summary</span>
+          <span class="card-title">Meal Summary</span>
           <div class="table">
             <table id="calorieTable" class="centered striped">
               <tr>

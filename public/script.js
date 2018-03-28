@@ -1,6 +1,7 @@
 window.onload = function() {
 
   var url = 'http://159.89.127.195:8000/';
+  //var url = 'http://127.0.0.1:8000/';
 
   function getCookie(name) {
     var value = "; " + document.cookie;
@@ -32,7 +33,7 @@ window.onload = function() {
             calorieCounter['guid'] = previous['guid'];
 
             calorieCounter.summarizeItems();
-            calorieCounter.summarizeCalories();
+            calorieCounter.summarizeMeals();
             calorieCounter.graph();
           }
         }
@@ -106,8 +107,14 @@ window.onload = function() {
       if(!this.meals[meal]) {
         this.meals[meal] = new this.Meal();
       }
-      this.meals[meal].items[item.name] = item.calories;
-      this.meals[meal].calories += item.calories;
+
+      if(this.meals[meal].items[item.name]) {
+        this.meals[meal].items[item.name] += item.calories;
+        this.meals[meal].calories += item.calories;
+      } else {
+        this.meals[meal].items[item.name] = item.calories;
+        this.meals[meal].calories += item.calories;
+      }
       this.sumCalories();
     },
     removeItem: function(meal, itemName) {
@@ -121,29 +128,9 @@ window.onload = function() {
         if(Object.keys(this.meals[meal].items).length === 0) {
           delete this.meals[meal];
         }
+        this.sumCalories();
         return true;
       }
-      this.sumCalories();
-    },
-
-
-    summarizeCalories: function() {
-      var html = '<thead><tr><th>Meal</th><th>Calories</th></tr></thead><tbody>';
-
-      for(meal in this.meals) {
-        html += `<tr>
-                   <td>${meal}</td>
-                   <td>${this.meals[meal].calories}</td>
-                 </tr>`
-      }
-
-      html += `<tr>
-                 <td>Total</td>
-                 <td>${this.calories}</td>
-               </tr>
-            </tbody>`;
-
-      calorieTable.innerHTML = html;
     },
 
     summarizeItems: function() {
@@ -157,7 +144,7 @@ window.onload = function() {
                      <td>${meal}</td>
                      <td>${item}</td>
                      <td>${this.meals[meal].items[item]}</td>
-                     <td><button class="removeItemButtons" data-item="${meal} ${item}">Remove</button></td>
+                     <td><button class="removeItemButtons waves-effect btn-flat" data-item="${meal} ${item}">remove</button></td>
                    </tr>`;
         }
       }
@@ -171,13 +158,33 @@ window.onload = function() {
           var mealAndItem = data.split(' ');
 
           calorieCounter.removeItem(...mealAndItem);
-          calorieCounter.summarizeCalories();
           calorieCounter.summarizeItems();
+          calorieCounter.summarizeMeals();
           calorieCounter.graph();
           calorieCounter.updateJSON();
         });
       });
     },
+
+    summarizeMeals: function() {
+      var html = '<thead><tr><th>Meal</th><th>Calories</th></tr></thead><tbody>';
+
+      for(meal in this.meals) {
+        html += `<tr>
+        <td>${meal}</td>
+        <td>${this.meals[meal].calories}</td>
+        </tr>`
+      }
+
+      html += `<tr>
+      <td>Total</td>
+      <td>${this.calories}</td>
+      </tr>
+      </tbody>`;
+
+      calorieTable.innerHTML = html;
+    },
+
     graph: function() {
       var mealItems = [];
       for(meal in this.meals) {
@@ -196,13 +203,17 @@ window.onload = function() {
       if(!this.isGraphed) {
         console.log('graphing');
         var ctx = document.getElementById('itemBar').getContext('2d');
+        var gradient = ctx.createLinearGradient(0, 0, 721, 360);
+        gradient.addColorStop(0, '#28d6cf');
+        gradient.addColorStop(1, '#6fa6d6');
+
         this.chart = new Chart(ctx, {
           type: 'bar',
           data: {
             labels: names,
             datasets: [{
               label: 'Calories Per Item',
-              backgroundColor: 'limegreen',
+              backgroundColor: gradient,
               data: calories,
             }]
           },
@@ -227,87 +238,110 @@ window.onload = function() {
 
   };
 
-  var addMealButton = document.getElementById("addMealButton");
-  var addMealInput = document.getElementById("addMealInput");
+  const addMealButton = document.getElementById("addMealButton");
+  const addMealInput = document.getElementById("addMealInput");
+  const addMealErrorMessage = document.getElementById("addMealErrorMessage");
 
-  var removeMealButton = document.getElementById("removeMealButton");
-  var removeMealInput = document.getElementById("removeMealInput");
+  const removeMealButton = document.getElementById("removeMealButton");
+  const removeMealInput = document.getElementById("removeMealInput");
+  const removeMealErrorMessage = document.getElementById("removeMealErrorMessage");
 
-  var addItemButton = document.getElementById("addItemButton");
-  var newItemMeal = document.getElementById("newItemMeal");
-  var newItem = document.getElementById("newItem");
-  var newItemCalories = document.getElementById("newItemCalories");
+  const addItemButton = document.getElementById("addItemButton");
+  const newItemMeal = document.getElementById("newItemMeal");
+  const newItem = document.getElementById("newItem");
+  const newItemCalories = document.getElementById("newItemCalories");
+  const addItemErrorMessage = document.getElementById("addItemErrorMessage");
 
-  var removeItemButton = document.getElementById("removeItemButton");
-  var itemToRemoveMeal = document.getElementById("itemToRemoveMeal");
-  var itemToRemove = document.getElementById("itemToRemove");
-
-  var itemTable = document.getElementById("itemTable");
-  var calorieTable = document.getElementById("calorieTable");
+  const itemTable = document.getElementById("itemTable");
+  const calorieTable = document.getElementById("calorieTable");
 
   addMealButton.addEventListener('click', function() {
     if(addMealInput.value === '') {
-      return;
+      addMealErrorMessage.innerHTML = 'There\'s nothing to add';
+      addMealErrorMessage.classList.add('active');
+      setTimeout(function() {
+        addMealErrorMessage.classList.remove('active');
+      }, 1500);
+    } else if(calorieCounter.meals[addMealInput.value.trim()]) {
+        addMealErrorMessage.innerHTML = 'This meal was added already';
+        addMealErrorMessage.classList.add('active');
+        setTimeout(function() {
+          addMealErrorMessage.classList.remove('active');
+        }, 1500);
     } else {
-      calorieCounter.addMeal(addMealInput.value);
-      calorieCounter.summarizeCalories();
+      calorieCounter.addMeal(addMealInput.value.trim());
       calorieCounter.summarizeItems();
+      calorieCounter.summarizeMeals();
       calorieCounter.updateJSON();
       addMealInput.value = '';
     }
   });
 
+  addMealButton.addEventListener('transitionend', function() {
+    if(!addMealErrorMessage.classList.contains('active')) {
+      addMealErrorMessage.innerHTML = '';
+    }
+  });
+
   removeMealButton.addEventListener('click', function() {
     if(removeMealInput.value === '') {
-      console.log('Please fill out all fields');
+      removeMealErrorMessage.innerHTML = 'There\'s nothing to remove';
+      removeMealErrorMessage.classList.add('active');
+      setTimeout(function() {
+        removeMealErrorMessage.classList.remove('active');
+      }, 1500);
     } else {
-      if(calorieCounter.removeMeal(removeMealInput.value)) {
+      if(calorieCounter.removeMeal(removeMealInput.value.trim())) {
         removeMealInput.value = '';
-        calorieCounter.summarizeCalories();
         calorieCounter.summarizeItems();
+        calorieCounter.summarizeMeals();
         calorieCounter.graph();
         calorieCounter.updateJSON();
       } else {
-        console.log('This meal wasn\'t added');
+        removeMealErrorMessage.innerHTML = 'That meal wasn\'t added';
+        removeMealErrorMessage.classList.add('active');
+        setTimeout(function() {
+          removeMealErrorMessage.classList.remove('active');
+        }, 1500);
       }
 
+    }
+  });
+
+  removeMealButton.addEventListener('transitionend', function() {
+    if(!removeMealErrorMessage.classList.contains('active')) {
+      removeMealErrorMessage.innerHTML = '';
     }
   });
 
   addItemButton.addEventListener('click', function() {
     if(newItem.value === '' || newItemCalories.value === '' || newItemMeal.value === '') {
-      console.log('Please fill out all fields');
+      addItemErrorMessage.innerHTML = 'Please fill out all fields';
+      addItemErrorMessage.classList.add('active');
+      setTimeout(function() {
+        addItemErrorMessage.classList.remove('active');
+      }, 1500);
     } else {
       var item = {
-        name: newItem.value,
-        calories: parseInt(newItemCalories.value),
+        name: newItem.value.trim(),
+        calories: parseInt(newItemCalories.value.trim()),
       };
-      calorieCounter.addItem(newItemMeal.value, item);
+      calorieCounter.addItem(newItemMeal.value.trim(), item);
       newItem.value = '';
       newItemCalories.value = '';
       newItemMeal.value = '';
-      calorieCounter.summarizeCalories();
       calorieCounter.summarizeItems();
+      calorieCounter.summarizeMeals();
       calorieCounter.graph();
       calorieCounter.updateJSON();
     }
   });
 
-  removeItemButton.addEventListener('click', function() {
-    if(itemToRemoveMeal.value === '' || itemToRemove.value === '') {
-      console.log('Please fill out all fields');
-    } else {
-      if(calorieCounter.removeItem(itemToRemoveMeal.value, itemToRemove.value)) {
-        itemToRemoveMeal.value = '';
-        itemToRemove.value = '';
-        calorieCounter.summarizeCalories();
-        calorieCounter.summarizeItems();
-        calorieCounter.graph();
-        calorieCounter.updateJSON();
-      } else {
-        console.log('This item wasn\'t added');
-      }
+  addItemButton.addEventListener('transitionend', function() {
+    if(!addItemErrorMessage.classList.contains('active')) {
+      addItemErrorMessage.innerHTML = '';
     }
   });
+
   calorieCounter.getPreviousCalorieCounter();
 };

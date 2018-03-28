@@ -75,5 +75,5 @@ app.post('/setGuid', function(req, res) {
 });
 
 app.listen(8000, function() {
-  console.log('Server running at ' + __dirname  );
+  console.log('Server running at 159.89.127.195:800');
 });
